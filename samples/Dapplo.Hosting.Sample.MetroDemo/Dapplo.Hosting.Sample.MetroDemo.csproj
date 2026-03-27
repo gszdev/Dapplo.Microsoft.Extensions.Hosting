@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.Metro\Dapplo.Microsoft.Extensions.Hosting.Metro.csproj" />
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.Plugins\Dapplo.Microsoft.Extensions.Hosting.Plugins.csproj" />
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.Wpf\Dapplo.Microsoft.Extensions.Hosting.Wpf.csproj" />
+    <ProjectReference Include="..\Dapplo.Hosting.Sample.Common\Dapplo.Hosting.Sample.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
