@@ -21,8 +21,9 @@ public static class HostApplicationBuilderMetroExtensions
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <param name="configureAction">Action to configure IMetroContext</param>
     /// <returns>IHostApplicationBuilder</returns>
-    public static IHostApplicationBuilder ConfigureMetro(this IHostApplicationBuilder hostApplicationBuilder, Action<IMetroContext> configureAction = null) =>
-        InternalBuilderMetroUtility.ConfigureMetro(hostApplicationBuilder, configureAction);
+    public static T ConfigureMetro<T>(this T hostApplicationBuilder, Action<IMetroContext> configureAction = null)
+        where T : IHostApplicationBuilder =>
+        (T)InternalBuilderMetroUtility.ConfigureMetro(hostApplicationBuilder, configureAction);
     
 
     /// <summary>
@@ -31,6 +32,7 @@ public static class HostApplicationBuilderMetroExtensions
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <param name="theme">string</param>
     /// <returns>IHostApplicationBuilder</returns>
-    public static IHostApplicationBuilder ConfigureMetro(this IHostApplicationBuilder hostApplicationBuilder, string theme) =>    
-        InternalBuilderMetroUtility.ConfigureMetro(hostApplicationBuilder, theme);
+    public static T ConfigureMetro<T>(this T hostApplicationBuilder, string theme)
+        where T : IHostApplicationBuilder =>    
+        (T)InternalBuilderMetroUtility.ConfigureMetro(hostApplicationBuilder, theme);
 }

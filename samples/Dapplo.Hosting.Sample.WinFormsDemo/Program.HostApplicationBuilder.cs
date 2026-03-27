@@ -79,7 +79,7 @@ public static class Program
                 // To customize application configuration such as set high DPI settings or default font,
                 // see https://aka.ms/applicationconfiguration.
                 configureAction.UseNewApplicationBootstrap = true;
-                configureAction.NewApplicationBootstrapAction = () => { ApplicationConfiguration.Initialize(); };
+                configureAction.NewApplicationBootstrapAction = () => ApplicationConfiguration.Initialize();
                 configureAction.EnableVisualStyles = false;
 #else
                 configureAction.EnableVisualStyles = true;

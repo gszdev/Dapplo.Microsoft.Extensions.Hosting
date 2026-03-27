@@ -23,8 +23,19 @@ public static class HostApplicationBuilderCaliburnMicroExtensions
     /// </summary>
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <returns>IHostBuilder</returns>
-    public static IHostApplicationBuilder ConfigureCaliburnMicro(this IHostApplicationBuilder hostApplicationBuilder) =>
-        InternalBuilderCaliburnMicroUtility.ConfigureCaliburnMicro(hostApplicationBuilder);
+    public static T ConfigureCaliburnMicro<T>(this T hostApplicationBuilder)
+        where T : IHostApplicationBuilder =>
+        (T)InternalBuilderCaliburnMicroUtility.ConfigureCaliburnMicro(hostApplicationBuilder);
+
+    /// <summary>
+    /// Configure Caliburn.Micro with the shell
+    /// </summary>
+    /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
+    /// <returns>IHostApplicationBuilder</returns>
+    public static T ConfigureCaliburnMicro<T, TShell>(this T hostApplicationBuilder)
+        where T : IHostApplicationBuilder
+        where TShell : class, ICaliburnMicroShell =>
+        (T)InternalBuilderCaliburnMicroUtility.ConfigureCaliburnMicro<TShell>(hostApplicationBuilder);
 
     /// <summary>
     /// Configure Caliburn.Micro with the shell
@@ -34,4 +45,13 @@ public static class HostApplicationBuilderCaliburnMicroExtensions
     public static IHostApplicationBuilder ConfigureCaliburnMicro<TShell>(this IHostApplicationBuilder hostApplicationBuilder)
         where TShell : class, ICaliburnMicroShell =>
         InternalBuilderCaliburnMicroUtility.ConfigureCaliburnMicro<TShell>(hostApplicationBuilder);
+
+    /// <summary>
+    /// Configure Caliburn.Micro with the shell
+    /// </summary>
+    /// <param name="hostApplicationBuilder">HostApplicationBuilder</param>
+    /// <returns>IHostApplicationBuilder</returns>
+    public static HostApplicationBuilder ConfigureCaliburnMicro<TShell>(this HostApplicationBuilder hostApplicationBuilder)
+        where TShell : class, ICaliburnMicroShell =>
+        (HostApplicationBuilder)InternalBuilderCaliburnMicroUtility.ConfigureCaliburnMicro<TShell>(hostApplicationBuilder);
 }

@@ -20,8 +20,9 @@ public static class HostApplicationBuilderAppServiceExtensions
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <param name="configureAction">Action to configure IMutexBuilder</param>
     /// <returns>IHostApplicationBuilder for fluently calling</returns>
-    public static IHostApplicationBuilder ConfigureSingleInstance(this IHostApplicationBuilder hostApplicationBuilder, Action<IMutexBuilder> configureAction) =>
-        InternalBuilderAppServiceUtility.ConfigureSingleInstance(hostApplicationBuilder, configureAction);
+    public static T ConfigureSingleInstance<T>(this T hostApplicationBuilder, Action<IMutexBuilder> configureAction)
+        where T : IHostApplicationBuilder =>
+        (T)InternalBuilderAppServiceUtility.ConfigureSingleInstance(hostApplicationBuilder, configureAction);
     
 
     /// <summary>
@@ -30,7 +31,8 @@ public static class HostApplicationBuilderAppServiceExtensions
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <param name="mutexId">string</param>
     /// <returns>IHostApplicationBuilder for fluently calling</returns>
-    public static IHostApplicationBuilder ConfigureSingleInstance(this IHostApplicationBuilder hostApplicationBuilder, string mutexId) =>
-        InternalBuilderAppServiceUtility.ConfigureSingleInstance(hostApplicationBuilder, builder => builder.MutexId = mutexId);
+    public static T ConfigureSingleInstance<T>(this T hostApplicationBuilder, string mutexId)
+        where T : IHostApplicationBuilder =>
+        (T)InternalBuilderAppServiceUtility.ConfigureSingleInstance(hostApplicationBuilder, builder => builder.MutexId = mutexId);
 
 }

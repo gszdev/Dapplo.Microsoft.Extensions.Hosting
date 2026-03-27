@@ -5,7 +5,6 @@ using Hosting.Sample.WinUI;
 using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateApplicationBuilder();
-
 builder.ConfigureWinUI<App, MainWindow>();
 
 var host = builder.Build();

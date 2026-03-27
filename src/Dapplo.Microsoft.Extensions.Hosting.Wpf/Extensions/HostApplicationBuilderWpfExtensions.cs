@@ -12,15 +12,16 @@ namespace Dapplo.Microsoft.Extensions.Hosting.Wpf;
 /// This contains the WPF extensions for Microsoft.Extensions.Hosting
 /// </summary>
 public static class HostApplicationBuilderWpfExtensions
-{    
+{
     /// <summary>
     /// Defines that stopping the WPF application also stops the host (application)
     /// </summary>
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <param name="shutdownMode">ShutdownMode default is OnLastWindowClose</param>
     /// <returns>IHostApplicationBuilder</returns>
-    public static IHostApplicationBuilder UseWpfLifetime(this IHostApplicationBuilder hostApplicationBuilder, ShutdownMode shutdownMode = ShutdownMode.OnLastWindowClose) =>    
-       InternalBuilderWpfUtility.UseWpfLifetime(hostApplicationBuilder, shutdownMode);
+    public static T UseWpfLifetime<T>(this T hostApplicationBuilder, ShutdownMode shutdownMode = ShutdownMode.OnLastWindowClose)
+       where T : IHostApplicationBuilder
+       => (T)InternalBuilderWpfUtility.UseWpfLifetime(hostApplicationBuilder, shutdownMode);
 
     /// <summary>
     /// Configure an WPF application 
@@ -28,6 +29,7 @@ public static class HostApplicationBuilderWpfExtensions
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder</param>
     /// <param name="configureDelegate">Action to configure Wpf</param>
     /// <returns></returns>
-    public static IHostApplicationBuilder ConfigureWpf(this IHostApplicationBuilder hostApplicationBuilder, Action<IWpfBuilder> configureDelegate = null) =>    
-        InternalBuilderWpfUtility.ConfigureWpf(hostApplicationBuilder, configureDelegate);     
+    public static T ConfigureWpf<T>(this T hostApplicationBuilder, Action<IWpfBuilder> configureDelegate = null)
+        where T : IHostApplicationBuilder
+        => (T)InternalBuilderWpfUtility.ConfigureWpf(hostApplicationBuilder, configureDelegate);
 }

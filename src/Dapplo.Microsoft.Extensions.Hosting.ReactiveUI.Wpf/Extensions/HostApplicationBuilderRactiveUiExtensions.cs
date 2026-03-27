@@ -17,6 +17,7 @@ public static class HostApplicationBuilderRactiveUiExtensions
     /// </summary>
     /// <param name="hostApplicationBuilder">IHostApplicationBuilder.</param>
     /// <returns>IHostApplicationBuilder</returns>
-    public static IHostApplicationBuilder ConfigureSplatForMicrosoftDependencyResolver(this IHostApplicationBuilder hostApplicationBuilder) =>    
-        InternalBuilderReactiveUiUtility.ConfigureSplatForMicrosoftDependencyResolver(hostApplicationBuilder);
+    public static T ConfigureSplatForMicrosoftDependencyResolver<T>(this T hostApplicationBuilder)
+        where T : IHostApplicationBuilder =>    
+        (T)InternalBuilderReactiveUiUtility.ConfigureSplatForMicrosoftDependencyResolver(hostApplicationBuilder);
 }
