@@ -32,7 +32,7 @@ public static class Program
         //var app1 = ReactiveUI.Builder.RxAppBuilder.CreateReactiveUIBuilder();
 
 
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName() ?? throw new NotSupportedException("Can't start without location.");
         var host = new HostBuilder()
             .ConfigureSplatForMicrosoftDependencyResolver()
 

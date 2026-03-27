@@ -23,7 +23,7 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName() ?? throw new NotSupportedException("Can't start without location.");
         var host = new HostBuilder()
             .ConfigureLogging()
             .ConfigureConfiguration(args)

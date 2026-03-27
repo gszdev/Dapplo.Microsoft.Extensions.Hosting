@@ -9,7 +9,8 @@ namespace Dapplo.Hosting.Sample.Common
         {
             string environmentName = null;
 
-            var hostSettingsFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), hostSettingsFile);
+            //var hostSettingsFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), hostSettingsFile);
+            var hostSettingsFilePath = System.IO.Path.Combine(AppContext.BaseDirectory, hostSettingsFile);
 
             if (System.IO.File.Exists(hostSettingsFilePath))
             {

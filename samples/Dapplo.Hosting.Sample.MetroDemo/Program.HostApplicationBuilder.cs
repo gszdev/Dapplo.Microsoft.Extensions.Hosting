@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Dapplo.Hosting.Sample.Common;
 using Dapplo.Microsoft.Extensions.Hosting.AppServices;
 using Dapplo.Microsoft.Extensions.Hosting.Metro;
 using Dapplo.Microsoft.Extensions.Hosting.Plugins;
@@ -23,7 +24,7 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
         if (executableLocation == null)
         {
             throw new NotSupportedException("Can't start without location.");

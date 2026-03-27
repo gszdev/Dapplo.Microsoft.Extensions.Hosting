@@ -15,6 +15,8 @@ namespace Dapplo.Microsoft.Extensions.Hosting.WinUI;
 /// </summary>
 public static class HostApplicationBuilderWinUiExtensions
 {
+    #region using a generic extension method for both IHostApplicationBuilder and HostApplicationBuilder will lead to an abmious reference
+    // Details: The HostBuilderWinUIExtensions.ConfigureWinUI for IHostBuilder will be used be the compiler
     /*
     /// <summary>
     /// Configure a WinUI application
@@ -27,7 +29,8 @@ public static class HostApplicationBuilderWinUiExtensions
         where TAppWindow : Window =>    
         (T)InternalBuilderWinUIUtility.ConfigureWinUI<TApp, TAppWindow>(hostApplicationBuilder);
     */
-    
+    #endregion
+
     /// <summary>
     /// Configure a WinUI application
     /// </summary>

@@ -22,7 +22,7 @@ public static class Program
     private const string Prefix = "PREFIX_";
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
         var host = new HostBuilder()
             .ConfigureLogging()
             .ConfigureConfiguration(args)

@@ -24,7 +24,7 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
         if (executableLocation == null)
         {
             throw new NotSupportedException("Can't start without location.");

@@ -2,18 +2,19 @@
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Dapplo.Microsoft.Extensions.Hosting.Plugins;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using Dapplo.Microsoft.Extensions.Hosting.AppServices;
-using Dapplo.Microsoft.Extensions.Hosting.Wpf;
-using Microsoft.Extensions.DependencyInjection;
-using Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro;
-using Dapplo.Hosting.Sample.CaliburnMicroDemo.ViewModels;
 using System.Threading.Tasks;
+using Dapplo.Hosting.Sample.CaliburnMicroDemo.ViewModels;
+using Dapplo.Hosting.Sample.Common;
+using Dapplo.Microsoft.Extensions.Hosting.AppServices;
+using Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro;
+using Dapplo.Microsoft.Extensions.Hosting.Plugins;
+using Dapplo.Microsoft.Extensions.Hosting.Wpf;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Dapplo.Hosting.Sample.CaliburnMicroDemo;
 
@@ -24,7 +25,7 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
 
         var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = args, };
 
@@ -61,7 +62,7 @@ public static class Program
                 // Specify the location from where the Dll's are "globbed"
                 pluginBuilder.AddScanDirectories(basePath);
                 // Add the framework libraries which can be found with the specified globs
-                pluginBuilder.IncludeFrameworks(@$"**\bin\{configuration}\\netstandard2.0\*.FrameworkLib.dll");
+                pluginBuilder.IncludeFrameworks(@$"**\bin\{configuration}\netstandard2.0\*.FrameworkLib.dll");
                 // Add the plugins which can be found with the specified globs
                 pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
             })

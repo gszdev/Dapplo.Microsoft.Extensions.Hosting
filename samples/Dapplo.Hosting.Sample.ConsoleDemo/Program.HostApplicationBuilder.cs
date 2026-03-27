@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Dapplo.Hosting.Sample.Common;
 using Dapplo.Microsoft.Extensions.Hosting.Plugins;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +22,7 @@ public static class Program
     private const string Prefix = "PREFIX_";
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
 
         var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = args, };
 

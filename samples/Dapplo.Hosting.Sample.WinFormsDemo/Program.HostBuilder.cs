@@ -23,7 +23,8 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
+        
         var host = new HostBuilder()
             .ConfigureWinForms<Form1>(configureAction =>
             {

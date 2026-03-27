@@ -2,16 +2,17 @@
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Dapplo.Microsoft.Extensions.Hosting.Plugins;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Dapplo.Hosting.Sample.Common;
 using Dapplo.Microsoft.Extensions.Hosting.AppServices;
+using Dapplo.Microsoft.Extensions.Hosting.Plugins;
 using Dapplo.Microsoft.Extensions.Hosting.Wpf;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Dapplo.Hosting.Sample.WpfDemo;
 
@@ -22,7 +23,7 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName() ?? throw new NotSupportedException("Can't start without location.");
         var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = args, };
 
         // Issue loading environment name from hostsettings.json file

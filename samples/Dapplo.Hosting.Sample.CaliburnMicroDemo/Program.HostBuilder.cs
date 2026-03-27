@@ -25,7 +25,7 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName();
             
         var host = new HostBuilder()
             .ConfigureWpf()
@@ -49,7 +49,7 @@ public static class Program
                 // Specify the location from where the Dll's are "globbed"
                 pluginBuilder.AddScanDirectories(basePath);
                 // Add the framework libraries which can be found with the specified globs
-                pluginBuilder.IncludeFrameworks(@$"**\bin\{configuration}\\netstandard2.0\*.FrameworkLib.dll");
+                pluginBuilder.IncludeFrameworks(@$"**\bin\{configuration}\netstandard2.0\*.FrameworkLib.dll");
                 // Add the plugins which can be found with the specified globs
                 pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
             })

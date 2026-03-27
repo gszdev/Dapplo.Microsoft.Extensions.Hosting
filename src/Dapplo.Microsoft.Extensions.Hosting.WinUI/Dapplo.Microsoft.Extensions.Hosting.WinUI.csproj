@@ -3,7 +3,7 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">18.0</VisualStudioVersion>
     <TargetFrameworks Condition="'$(VisualStudioVersion)' &gt;= '18.0'">net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0;net10.0-windows10.0.19041.0</TargetFrameworks>
-    <TargetFrameworks Condition="'$(VisualStudioVersion)' &lt;= '17.0'">net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(VisualStudioVersion)' &lt; '18.0'">net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0</TargetFrameworks>
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <Platforms>arm64;x86;x64</Platforms>
     <PackageDescription>This extension adds WinUI support to generic host applications. With this you can enhance your application with a UI, and use all the services provided by the generic host like DI, logging etc.</PackageDescription>
