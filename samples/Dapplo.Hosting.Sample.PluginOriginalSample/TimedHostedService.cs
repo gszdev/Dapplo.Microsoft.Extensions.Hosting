@@ -33,7 +33,7 @@ public class TimedHostedService : IHostedService, IDisposable
     private void DoWork(object state)
     {
         this.logger.LogInformation("Timed Background Service is working.");
-        this.logger.LogInformation("Known registered Services {0}", string.Join(", ", SomeStaticExampleClass.RegisteredServices));
+        this.logger.LogInformation("Known registered Services {@RegisteredServices}", string.Join(", ", SomeStaticExampleClass.RegisteredServices));
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

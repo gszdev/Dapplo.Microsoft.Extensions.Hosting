@@ -70,7 +70,7 @@ namespace Dapplo.Microsoft.Extensions.Hosting.AppServices
         {
             if (this.logger.IsEnabled(LogLevel.Debug))
             {
-                this.logger.LogDebug("{0} is trying to get Mutex {1}", this.resourceName, this.mutexId);
+                this.logger.LogDebug("{@ResourceName} is trying to get Mutex {@MutexId}", this.resourceName, this.mutexId);
             }
 
             IsLocked = true;
@@ -97,19 +97,19 @@ namespace Dapplo.Microsoft.Extensions.Hosting.AppServices
                     IsLocked = this.applicationMutex.WaitOne(2000, false);
                     if (!IsLocked)
                     {
-                        this.logger.LogWarning("Mutex {0} is already in use and couldn't be locked for the caller {1}", this.mutexId, this.resourceName);
+                        this.logger.LogWarning("Mutex {@MutextId} is already in use and couldn't be locked for the caller {@ResourceName}", this.mutexId, this.resourceName);
                         // Clean up
                         this.applicationMutex.Dispose();
                         this.applicationMutex = null;
                     }
                     else
                     {
-                        this.logger.LogInformation("{0} has claimed the mutex {1}", this.resourceName, this.mutexId);
+                        this.logger.LogInformation("{@ResourceName} has claimed the mutex {@MutextId}", this.resourceName, this.mutexId);
                     }
                 }
                 else
                 {
-                    this.logger.LogInformation("{0} has created & claimed the mutex {1}", this.resourceName, this.mutexId);
+                    this.logger.LogInformation("{@ResourceName} has created & claimed the mutex {@MutextId}", this.resourceName, this.mutexId);
                 }
             }
             catch (AbandonedMutexException e)
@@ -155,13 +155,13 @@ namespace Dapplo.Microsoft.Extensions.Hosting.AppServices
                 {
                     this.applicationMutex.ReleaseMutex();
                     IsLocked = false;
-                    this.logger.LogInformation("Released Mutex {0} for {1}", this.mutexId, this.resourceName);
+                    this.logger.LogInformation("Released Mutex {@MutexId} for {@ResourceName}", this.mutexId, this.resourceName);
                 }
                 this.applicationMutex.Dispose();
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "Error releasing Mutex {0} for {1}", this.mutexId, this.resourceName);
+                this.logger.LogError(ex, "Error releasing Mutex {@MutexId} for {@ResourceName}", this.mutexId, this.resourceName);
             }
             this.applicationMutex = null;
         }

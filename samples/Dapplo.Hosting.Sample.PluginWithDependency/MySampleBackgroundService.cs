@@ -37,18 +37,18 @@ public class MySampleBackgroundService : IHostedService, IDisposable
 
     private void DoWork(object state)
     {
-        this.logger.LogInformation("Known registered Services {0}", string.Join(", ", SomeStaticExampleClass.RegisteredServices));
+        this.logger.LogInformation("Known registered Services {@RegisteredServices}", string.Join(", ", SomeStaticExampleClass.RegisteredServices));
         this.logger.LogInformation("Retrieving something.");
         Task.Run(async () =>
         {
             try
             {
                 var result = await this.uri.GetStringAsync();
-                this.logger.LogInformation("{0} : {1}", this.uri, result.Substring(0, 40));
+                this.logger.LogInformation("{@Uri} : {@UriStringValue}", this.uri, result.Substring(0, 40));
             }
             catch (Exception)
             {
-                this.logger.LogError("Couldn't connect to {0}, this was expected behind a corporate firewall, as HttpClient doesn't have a default proxy!", this.uri);
+                this.logger.LogError("Couldn't connect to {@Uri}, this was expected behind a corporate firewall, as HttpClient doesn't have a default proxy!", this.uri);
             }
         });
     }

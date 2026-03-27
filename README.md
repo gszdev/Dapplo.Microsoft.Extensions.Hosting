@@ -96,7 +96,7 @@ This extension adds some generic application services for desktop applications, 
 		builder.WhenNotFirstInstance = (hostingEnvironment, logger) =>
 		{
 			// This is called when an instance was already started, this is in the second instance
-			logger.LogWarning("Application {0} already running.", hostingEnvironment.ApplicationName);
+			logger.LogWarning("Application {@ApplicationName} already running.", hostingEnvironment.ApplicationName);
 		};
 	})
 ```

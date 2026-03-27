@@ -81,16 +81,15 @@ public static class Program
             .WithWpf()
             .WithViewsFromAssembly(Assembly.GetExecutingAssembly())
             .WithRegistration(locator => {
-                //locator.InitializeSplat();
+                // locator.InitializeSplat();
             });
 
             var rxApp = rxAppBuilder.BuildApp();
-            //rxApp.MainThreadScheduler
-            //rxApp.TaskpoolScheduler
+            // rxApp.MainThreadScheduler
+            // rxApp.TaskpoolScheduler
             builder.Services.AddSingleton(rxApp);
             
         })
-        //.UseConsoleLifetime()
         .UseWpfLifetime();
 
         builder.Services.UseMicrosoftDependencyResolver();
