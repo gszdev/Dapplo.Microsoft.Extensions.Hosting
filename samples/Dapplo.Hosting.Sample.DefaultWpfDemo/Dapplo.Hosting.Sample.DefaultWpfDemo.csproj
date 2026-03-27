@@ -2,15 +2,22 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net9.0-windows;net8.0-windows</TargetFrameworks>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">18.0</VisualStudioVersion>
+    <TargetFrameworks Condition="'$(VisualStudioVersion)' &gt;= '18.0'">net10.0-windows;net9.0-windows;net8.0-windows</TargetFrameworks>
+    <TargetFrameworks Condition="'$(VisualStudioVersion)' &lt;= '17.0'">net9.0-windows;net8.0-windows</TargetFrameworks>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);USE_HOST_APPLICATION_BUILDER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.AppServices\Dapplo.Microsoft.Extensions.Hosting.AppServices.csproj" />
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.Plugins\Dapplo.Microsoft.Extensions.Hosting.Plugins.csproj" />
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.Wpf\Dapplo.Microsoft.Extensions.Hosting.Wpf.csproj" />
+    <ProjectReference Include="..\Dapplo.Hosting.Sample.Common\Dapplo.Hosting.Sample.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

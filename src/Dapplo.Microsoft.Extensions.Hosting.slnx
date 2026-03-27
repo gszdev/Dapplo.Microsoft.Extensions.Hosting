@@ -1,0 +1,48 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="arm64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/SolutionConfig/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitattributes" />
+    <File Path="../.gitignore" />
+    <File Path="../azure-pipelines.yml" />
+    <File Path="../CODE_OF_CONDUCT.md" />
+    <File Path="../contributing.md" />
+    <File Path="../Directory.Build.props" />
+    <File Path="../global.json" />
+    <File Path="../LICENSE" />
+    <File Path="../README.md" />
+    <File Path="../version.json" />
+  </Folder>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.AppServices/Dapplo.Microsoft.Extensions.Hosting.AppServices.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro/Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.Metro/Dapplo.Microsoft.Extensions.Hosting.Metro.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.Plugins/Dapplo.Microsoft.Extensions.Hosting.Plugins.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.WinForms/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.WinForms.csproj" />
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.Wpf/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.Wpf.csproj" />
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.UiThread/Dapplo.Microsoft.Extensions.Hosting.UiThread.csproj" />
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.WinForms/Dapplo.Microsoft.Extensions.Hosting.WinForms.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.WinUI/Dapplo.Microsoft.Extensions.Hosting.WinUI.csproj">
+    <Platform Solution="*|Any CPU" Project="x64" />
+    <Platform Solution="*|arm64" Project="arm64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
+  <Project Path="Dapplo.Microsoft.Extensions.Hosting.Wpf/Dapplo.Microsoft.Extensions.Hosting.Wpf.csproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+</Solution>

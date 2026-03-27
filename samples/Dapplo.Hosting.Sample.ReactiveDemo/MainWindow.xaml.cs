@@ -1,6 +1,8 @@
-﻿using System.Reactive.Disposables;
+using System.Reactive.Disposables;
+using System.Reactive.Disposables.Fluent;
 using Dapplo.Microsoft.Extensions.Hosting.Wpf;
 using ReactiveUI;
+using Splat;
 
 namespace Dapplo.Hosting.Sample.ReactiveDemo;
 
@@ -12,7 +14,7 @@ public partial class MainWindow : ReactiveWindow<AppViewModel>, IWpfShell
     public MainWindow()
     {
         InitializeComponent();
-        ViewModel = new AppViewModel();
+        ViewModel = AppLocator.Current.GetService<AppViewModel>(); //new AppViewModel();
 
         // We create our bindings here. These are the code behind bindings which allow
         // type safety. The bindings will only become active when the Window is being shown.

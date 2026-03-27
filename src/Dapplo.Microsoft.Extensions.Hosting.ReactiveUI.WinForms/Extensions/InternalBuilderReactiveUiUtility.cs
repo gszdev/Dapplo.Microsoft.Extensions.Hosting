@@ -38,7 +38,7 @@ namespace Dapplo.Microsoft.Extensions.Hosting.ReactiveUI
             serviceCollection.UseMicrosoftDependencyResolver();
             var resolver = Locator.CurrentMutable;
             resolver.InitializeSplat();
-            resolver.InitializeReactiveUI();
+            //resolver.InitializeReactiveUI();
         }
     }
 }

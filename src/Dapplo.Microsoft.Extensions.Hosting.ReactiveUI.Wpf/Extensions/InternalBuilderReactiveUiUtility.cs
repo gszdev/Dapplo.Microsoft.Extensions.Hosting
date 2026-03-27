@@ -38,6 +38,6 @@ internal static class InternalBuilderReactiveUiUtility
         serviceCollection.UseMicrosoftDependencyResolver();
         var resolver = Locator.CurrentMutable;
         resolver.InitializeSplat();
-        resolver.InitializeReactiveUI();
+        //resolver.InitializeReactiveUI();
     }
 }

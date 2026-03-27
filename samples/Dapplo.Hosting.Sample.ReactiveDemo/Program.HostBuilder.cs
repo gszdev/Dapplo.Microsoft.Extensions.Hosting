@@ -1,8 +1,10 @@
+#if !USE_HOST_APPLICATION_BUILDER
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Dapplo.Microsoft.Extensions.Hosting.AppServices;
 using Dapplo.Microsoft.Extensions.Hosting.Plugins;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
+using ReactiveUI.Builder;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
 
@@ -26,10 +29,13 @@ public static class Program
 
     public static Task Main(string[] args)
     {
+        //var app1 = ReactiveUI.Builder.RxAppBuilder.CreateReactiveUIBuilder();
+
+
         var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
         var host = new HostBuilder()
             .ConfigureSplatForMicrosoftDependencyResolver()
-            .ConfigureWpf(wpfBuilder => wpfBuilder.UseWindow<MainWindow>())
+
             .ConfigureLogging()
             .ConfigureConfiguration(args)
             .ConfigureSingleInstance(builder =>
@@ -58,12 +64,31 @@ public static class Program
             {
                 // Make sure we got all the ReactiveUI setup
                 serviceCollection.UseMicrosoftDependencyResolver();
+                /*
                 var resolver = Locator.CurrentMutable;
                 resolver.InitializeSplat();
                 resolver.InitializeReactiveUI();
+                */
+
+                var rxAppBuilder = ReactiveUI.Builder.RxAppBuilder.CreateReactiveUIBuilder()
+                .WithWpf()
+                .WithViewsFromAssembly(Assembly.GetExecutingAssembly())
+                .WithRegistration(locator =>
+                {
+
+                });
+
+                var rxApp = rxAppBuilder.BuildApp();
+                serviceCollection.AddSingleton(rxApp);
 
                 // See https://reactiveui.net/docs/handbook/routing to learn more about routing in RxUI
                 serviceCollection.AddTransient<IViewFor<NugetDetailsViewModel>, NugetDetailsView>();
+                serviceCollection.AddTransient<AppViewModel>();
+            })
+            .ConfigureWpf(wpfBuilder => {
+                wpfBuilder.UseWindow<MainWindow>();
+
+                
             })
             .UseConsoleLifetime()
             .UseWpfLifetime()
@@ -107,3 +132,4 @@ public static class Program
                 configApp.AddEnvironmentVariables(prefix: Prefix).AddCommandLine(args);
             });
 }
+#endif

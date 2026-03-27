@@ -1,16 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--ReactiveUI only supports windows 10.0.17763 plus-->
-    <TargetFrameworks>net472;net8.0-windows10.0.17763;net9.0-windows10.0.17763</TargetFrameworks>
+    <!--ReactiveUI only supports windows 10.0.19041 plus-->
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">18.0</VisualStudioVersion>
+    <TargetFrameworks Condition="'$(VisualStudioVersion)' &gt;= '18.0'">net472;net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0;net10.0-windows10.0.19041.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(VisualStudioVersion)' &lt;= '17.0'">net472;net8.0-windows10.0.19041.0;net9.0-windows10.0.19041.0</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <PackageDescription>This extension adds ReactiveUI support to generic host based dotnet core 8.0 / 9.0 WinForms applications. With this you can enhance your application with a UI, and use all the services provided by the generic host like DI, logging etc, together with this reactive MVVM framework.</PackageDescription>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Drawing" Version="20.1.63" />
-    <PackageReference Include="ReactiveUI.WinForms" Version="20.1.63" />
-    <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="15.2.22" />
+    <PackageReference Include="ReactiveUI.Drawing" Version="23.1.8" />
+    <PackageReference Include="ReactiveUI.WinForms" Version="23.1.8" />
+    <PackageReference Include="Splat.Microsoft.Extensions.DependencyInjection" Version="19.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-    <PackageReference Update="Nerdbank.GitVersioning" Version="3.6.146">
+    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="10.0.201" />
+    <PackageReference Update="Nerdbank.GitVersioning" Version="3.9.50">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

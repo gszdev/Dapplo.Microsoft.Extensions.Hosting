@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NuGet.Configuration;
 using NuGet.Protocol.Core.Types;
 using ReactiveUI;
+using ReactiveUI.Builder;
 
 namespace Dapplo.Hosting.Sample.ReactiveDemo;
 
@@ -46,7 +47,7 @@ public class AppViewModel : ReactiveObject
     private readonly ObservableAsPropertyHelper<bool> isAvailable;
     public bool IsAvailable => this.isAvailable.Value;
 
-    public AppViewModel()
+    public AppViewModel(IReactiveUIInstance rxApp)
     {
         // Creating our UI declaratively
         // 
@@ -83,7 +84,7 @@ public class AppViewModel : ReactiveObject
             .DistinctUntilChanged()
             .Where(term => !string.IsNullOrWhiteSpace(term))
             .SelectMany(SearchNuGetPackages)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(rxApp.MainThreadScheduler)
             .ToProperty(this, x => x.SearchResults);
 
         // We subscribe to the "ThrownExceptions" property of our OAPH, where ReactiveUI 

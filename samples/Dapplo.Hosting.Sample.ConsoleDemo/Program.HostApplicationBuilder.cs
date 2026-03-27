@@ -1,3 +1,4 @@
+#if USE_HOST_APPLICATION_BUILDER
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
@@ -22,27 +23,40 @@ public static class Program
     public static Task Main(string[] args)
     {
         var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-        var host = new HostBuilder()
-            .ConfigureLogging()
-            .ConfigureConfiguration(args)
-            .ConfigurePlugins(pluginBuilder =>
-            {
-                var runtime = Path.GetFileName(executableLocation);
-                var parentDirectory = Directory.GetParent(executableLocation).FullName;
-                var configuration = Path.GetFileName(parentDirectory);
-                var basePath = Path.Combine(executableLocation, @"..\..\..\..\");
-                // Specify the location from where the Dll's are "globbed"
-                pluginBuilder.AddScanDirectories(basePath);
-                // Add the framework libraries which can be found with the specified globs
-                pluginBuilder.IncludeFrameworks(@$"**\bin\{configuration}\netstandard2.0\*.FrameworkLib.dll");
-                // Add the plugins which can be found with the specified globs
-                pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
-            })
-            .UseConsoleLifetime()
-            .Build();
+
+        var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = args, };
+
+        // Issue loading environment name from hostsettings.json file
+        // For more details see https://github.com/dotnet/runtime/issues/97930 (Unable to configure host environment from a JSON settings file when using Host.CreateApplicationBuilder)
+        var environmentName = Dapplo.Hosting.Sample.Common.HostingUtility.GetEnvironmentNameFromHostSettingsFile(HostSettingsFile);
+        if (!string.IsNullOrEmpty(environmentName))
+        {
+            hostApplicationBuilderSettings.EnvironmentName = environmentName;
+        }
+
+        var builder = Host.CreateApplicationBuilder(hostApplicationBuilderSettings);
+        builder.Configuration.AddEnvironmentVariables(prefix: Prefix);
+
+        builder.Logging.AddConsole();
+        builder.Logging.AddDebug();
+
+        builder.ConfigurePlugins(pluginBuilder =>
+         {
+             var runtime = Path.GetFileName(executableLocation);
+             var parentDirectory = Directory.GetParent(executableLocation).FullName;
+             var configuration = Path.GetFileName(parentDirectory);
+             var basePath = Path.Combine(executableLocation, @"..\..\..\..\");
+             // Specify the location from where the Dll's are "globbed"
+             pluginBuilder.AddScanDirectories(basePath);
+             // Add the framework libraries which can be found with the specified globs
+             pluginBuilder.IncludeFrameworks(@$"**\bin\{configuration}\netstandard2.0\*.FrameworkLib.dll");
+             // Add the plugins which can be found with the specified globs
+             pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
+         });
+
+        var host = builder.Build();
 
         Console.WriteLine("Run!");
-
         return host.RunAsync();
     }
 
@@ -88,3 +102,4 @@ public static class Program
             });
     }
 }
+#endif

@@ -1,60 +1,33 @@
+#if !USE_HOST_APPLICATION_BUILDER
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Dapplo.Microsoft.Extensions.Hosting.AppServices;
 using Dapplo.Microsoft.Extensions.Hosting.Plugins;
-using Dapplo.Microsoft.Extensions.Hosting.WinForms;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Dapplo.Hosting.Sample.WinFormsDemo;
+namespace Dapplo.Hosting.Sample.ConsoleDemo;
 
+/// <summary>
+/// This demonstrates loading plugins
+/// </summary>
 public static class Program
 {
     private const string AppSettingsFilePrefix = "appsettings";
     private const string HostSettingsFile = "hostsettings.json";
     private const string Prefix = "PREFIX_";
-
     public static Task Main(string[] args)
     {
         var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
         var host = new HostBuilder()
-            .ConfigureWinForms<Form1>(configureAction =>
-            {
-
-#if NET6_0_OR_GREATER
-                // To customize application configuration such as set high DPI settings or default font,
-                // see https://aka.ms/applicationconfiguration.
-                configureAction.UseNewApplicationBootstrap = true;
-                configureAction.NewApplicationBootstrapAction = () => { ApplicationConfiguration.Initialize(); };
-                configureAction.EnableVisualStyles = false;
-#else
-                configureAction.EnableVisualStyles = true;
-#endif
-            })
             .ConfigureLogging()
             .ConfigureConfiguration(args)
-            .ConfigureSingleInstance(builder =>
-            {
-                builder.MutexId = "{80B16FA8-ECAE-4DD8-9F8A-FE7E6780A825}";
-                builder.WhenNotFirstInstance = (hostingEnvironment, logger) =>
-                {
-                    // This is called when an instance was already started, this is in the second instance
-                    logger.LogWarning("Application {ApplicationName} already running.", hostingEnvironment.ApplicationName);
-                };
-            })
             .ConfigurePlugins(pluginBuilder =>
             {
-                if (executableLocation == null)
-                {
-                    return;
-                }
-
                 var runtime = Path.GetFileName(executableLocation);
                 var parentDirectory = Directory.GetParent(executableLocation).FullName;
                 var configuration = Path.GetFileName(parentDirectory);
@@ -66,16 +39,10 @@ public static class Program
                 // Add the plugins which can be found with the specified globs
                 pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
             })
-            .ConfigureServices(serviceCollection =>
-            {
-                // Make Form2 available for DI to Form1
-                serviceCollection.AddTransient<Form2>();
-            })
-            .UseWinFormsLifetime()
             .UseConsoleLifetime()
             .Build();
 
-        Console.WriteLine(@"Run!");
+        Console.WriteLine("Run!");
 
         return host.RunAsync();
     }
@@ -104,22 +71,22 @@ public static class Program
     {
         return hostBuilder.ConfigureHostConfiguration(configHost =>
             {
-                configHost
-                    .SetBasePath(Directory.GetCurrentDirectory())
+                configHost.SetBasePath(Directory.GetCurrentDirectory())
                     .AddJsonFile(HostSettingsFile, optional: true)
                     .AddEnvironmentVariables(prefix: Prefix)
                     .AddCommandLine(args);
             })
             .ConfigureAppConfiguration((hostContext, configApp) =>
             {
-                configApp
-                    .AddJsonFile(AppSettingsFilePrefix + ".json", optional: true)
-                    .AddEnvironmentVariables(prefix: Prefix)
-                    .AddCommandLine(args);
+                configApp.AddJsonFile(AppSettingsFilePrefix + ".json", optional: true);
                 if (!string.IsNullOrEmpty(hostContext.HostingEnvironment.EnvironmentName))
                 {
                     configApp.AddJsonFile(AppSettingsFilePrefix + $".{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
                 }
+                configApp
+                    .AddEnvironmentVariables(prefix: Prefix)
+                    .AddCommandLine(args);
             });
     }
 }
+#endif

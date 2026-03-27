@@ -59,7 +59,7 @@ public class CaliburnMicroBootstrapper : BootstrapperBase, IWpfService
     /// </summary>
     /// <param name="instance">some object to fill</param>
     protected override void BuildUp(object instance) =>
-        this.logger.LogDebug("Should buildup {0}", instance?.GetType().Name); // TODO: don't know how to fill imports yet?//_bootstrapper.Container.InjectProperties(instance);
+        this.logger.LogDebug("Should buildup {MemberInfo.Name}", instance?.GetType().Name); // TODO: don't know how to fill imports yet?//_bootstrapper.Container.InjectProperties(instance);
 
     /// <summary>
     ///     Configure Caliburn.Micro
@@ -72,7 +72,7 @@ public class CaliburnMicroBootstrapper : BootstrapperBase, IWpfService
 
         if (this.caliburnMicroContext.EnableOriginalDataContext)
         {
-            MessageBinder.SpecialValues.Add("$originalDataContext", context =>
+            MessageBinder.SpecialValues.TryAdd("$originalDataContext", context =>
             {
                 var routedEventArgs = context.EventArgs as RoutedEventArgs;
                 var frameworkElement = routedEventArgs?.OriginalSource as FrameworkElement;
@@ -97,7 +97,7 @@ public class CaliburnMicroBootstrapper : BootstrapperBase, IWpfService
                 return viewType;
             }
 
-            this.logger.LogDebug("No view for {0}, looking into base types.", modelType);
+            this.logger.LogDebug("No view for {ModelType}, looking into base types.", modelType);
             var currentModelType = modelType;
             while (viewType == null && currentModelType != null && currentModelType != typeof(object) && currentModelType != typeof(Screen))
             {
@@ -106,7 +106,7 @@ public class CaliburnMicroBootstrapper : BootstrapperBase, IWpfService
             }
             if (viewType != null)
             {
-                this.logger.LogDebug("Found view for {0} in base type {1}, the view is {2}", modelType, currentModelType, viewType);
+                this.logger.LogDebug("Found view for {ModelType} in base type {CurrentModelType}, the view is {ViewType}", modelType, currentModelType, viewType);
             }
 
             return viewType;

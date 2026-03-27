@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>Hosting.Sample.WinUI.SingleProjectPackage</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -12,6 +12,9 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
     <DefineConstants>DISABLE_XAML_GENERATED_MAIN;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);USE_HOST_APPLICATION_BUILDER</DefineConstants>
+  </PropertyGroup>  
   <ItemGroup>
     <None Remove="Images\LockScreenLogo.scale-200.png" />
     <None Remove="Images\SplashScreen.scale-200.png" />
@@ -38,11 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Dapplo.Microsoft.Extensions.Hosting.WinUI\Dapplo.Microsoft.Extensions.Hosting.WinUI.csproj" />
+    <ProjectReference Include="..\Dapplo.Hosting.Sample.Common\Dapplo.Hosting.Sample.Common.csproj" />
   </ItemGroup>
 </Project>

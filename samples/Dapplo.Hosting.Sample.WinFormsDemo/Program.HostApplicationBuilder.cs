@@ -2,18 +2,18 @@
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-using Dapplo.Microsoft.Extensions.Hosting.Plugins;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Dapplo.Microsoft.Extensions.Hosting.AppServices;
-using Dapplo.Microsoft.Extensions.Hosting.Wpf;
+using Dapplo.Microsoft.Extensions.Hosting.Plugins;
+using Dapplo.Microsoft.Extensions.Hosting.WinForms;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace Dapplo.Hosting.Sample.WpfDemo;
+namespace Dapplo.Hosting.Sample.WinFormsDemo;
 
 public static class Program
 {
@@ -23,35 +23,44 @@ public static class Program
 
     public static Task Main(string[] args)
     {
-        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
-        var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = args, };
+        var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+
+        var hostApplicationBuilderSettings = new HostApplicationBuilderSettings()
+        {
+            Args = args,
+        };
 
         // Issue loading environment name from hostsettings.json file
         // For more details see https://github.com/dotnet/runtime/issues/97930 (Unable to configure host environment from a JSON settings file when using Host.CreateApplicationBuilder)
-        var environmentName = GetEnvironmentNameFromHostSettingsFile();
+        var environmentName = Dapplo.Hosting.Sample.Common.HostingUtility.GetEnvironmentNameFromHostSettingsFile(HostSettingsFile);
         if (!string.IsNullOrEmpty(environmentName))
         {
             hostApplicationBuilderSettings.EnvironmentName = environmentName;
         }
 
         var builder = Host.CreateApplicationBuilder(hostApplicationBuilderSettings);
-        builder.Configuration.AddEnvironmentVariables(prefix: Prefix);
-
         builder.Logging.AddConsole();
         builder.Logging.AddDebug();
+
+        builder.Services.AddTransient<Form2>();
 
         builder
             .ConfigureSingleInstance(builder =>
             {
-                builder.MutexId = "{C3CC6C8F-B40C-4EC2-A540-1D4B8FFFB60D}";
-                builder.WhenNotFirstInstance = (hostingEnvironment, logger) =>
-                {
-                    // This is called when an instance was already started, this is in the second instance
-                    logger.LogWarning("Application {applicationName} already running.", hostingEnvironment.ApplicationName);
-                };
+             builder.MutexId = "{80B16FA8-ECAE-4DD8-9F8A-FE7E6780A825}";
+             builder.WhenNotFirstInstance = (hostingEnvironment, logger) =>
+             {
+                 // This is called when an instance was already started, this is in the second instance
+                 logger.LogWarning("Application {ApplicationName} already running.", hostingEnvironment.ApplicationName);
+             };
             })
             .ConfigurePlugins(pluginBuilder =>
             {
+                if (executableLocation == null)
+                {
+                    return;
+                }
+
                 var runtime = Path.GetFileName(executableLocation);
                 var parentDirectory = Directory.GetParent(executableLocation).FullName;
                 var configuration = Path.GetFileName(parentDirectory);
@@ -63,45 +72,24 @@ public static class Program
                 // Add the plugins which can be found with the specified globs
                 pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
             })
-            .ConfigureWpf(wpfBuilder =>
+            .ConfigureWinForms<Form1>(configureAction =>
             {
-                wpfBuilder.UseApplication<MyApplication>();
-                wpfBuilder.UseWindow<MainWindow>();
+
+#if NET6_0_OR_GREATER
+                // To customize application configuration such as set high DPI settings or default font,
+                // see https://aka.ms/applicationconfiguration.
+                configureAction.UseNewApplicationBootstrap = true;
+                configureAction.NewApplicationBootstrapAction = () => { ApplicationConfiguration.Initialize(); };
+                configureAction.EnableVisualStyles = false;
+#else
+                configureAction.EnableVisualStyles = true;
+#endif
             })
-            .UseWpfLifetime()
-            ;
-
-        // Make OtherWindow available for DI to the MainWindow, but not as singleton
-        builder.Services.AddTransient<OtherWindow>();
-
+            .UseWinFormsLifetime();
+        
         var host = builder.Build();
-
         Console.WriteLine("Run!");
         return host.RunAsync();
-    }
-
-    private static string GetEnvironmentNameFromHostSettingsFile()
-    {
-        string environmentName = null;
-
-        var hostSettingsFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), HostSettingsFile);
-
-        if (System.IO.File.Exists(hostSettingsFilePath))
-        {
-            var jsonData = File.ReadAllText(hostSettingsFilePath);
-            var jsonHostSettingsObject = System.Text.Json.Nodes.JsonObject.Parse(jsonData);
-
-            if (jsonHostSettingsObject != null)
-            {
-                var environmentNode = jsonHostSettingsObject["environment"];
-                if (environmentNode != null)
-                {
-                    environmentName = environmentNode.GetValue<string>();
-                }
-            }
-        }
-
-        return environmentName;
     }
 }
 

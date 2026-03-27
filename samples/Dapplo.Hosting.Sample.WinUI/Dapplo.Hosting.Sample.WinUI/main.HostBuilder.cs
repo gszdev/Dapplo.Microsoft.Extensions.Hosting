@@ -1,3 +1,5 @@
+#if !USE_HOST_APPLICATION_BUILDER
+
 using Dapplo.Microsoft.Extensions.Hosting.WinUI;
 using Hosting.Sample.WinUI;
 using Microsoft.Extensions.Hosting;
@@ -7,3 +9,4 @@ var host = Host.CreateDefaultBuilder()
     .Build();
 
 host.Run();
+#endif

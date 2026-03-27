@@ -1,3 +1,4 @@
+#if USE_HOST_APPLICATION_BUILDER
 // Copyright (c) Dapplo and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
@@ -25,11 +26,24 @@ public static class Program
     public static Task Main(string[] args)
     {
         var executableLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            
-        var host = new HostBuilder()
-            .ConfigureWpf()
-            .ConfigureLogging()
-            .ConfigureConfiguration(args)
+
+        var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = args, };
+
+        // Issue loading environment name from hostsettings.json file
+        // For more details see https://github.com/dotnet/runtime/issues/97930 (Unable to configure host environment from a JSON settings file when using Host.CreateApplicationBuilder)
+        var environmentName = Dapplo.Hosting.Sample.Common.HostingUtility.GetEnvironmentNameFromHostSettingsFile(HostSettingsFile);
+        if (!string.IsNullOrEmpty(environmentName))
+        {
+            hostApplicationBuilderSettings.EnvironmentName = environmentName;
+        }
+
+        var builder = Host.CreateApplicationBuilder(hostApplicationBuilderSettings);
+        builder.Configuration.AddEnvironmentVariables(prefix: Prefix);
+
+        builder.Logging.AddConsole();
+        builder.Logging.AddDebug();
+
+        builder
             .ConfigureSingleInstance(builder =>
             {
                 builder.MutexId = "{B9CE32C0-59AE-4AF0-BE39-5329AAFF4BE8}";
@@ -52,62 +66,16 @@ public static class Program
                 // Add the plugins which can be found with the specified globs
                 pluginBuilder.IncludePlugins(@$"**\bin\{configuration}\{runtime}\*.Sample.Plugin*.dll");
             })
+            .ConfigureWpf()
             .ConfigureCaliburnMicro<MainViewModel>()
-            .ConfigureServices(serviceCollection =>
-            {
-                // Make OtherWindow available for DI to MainWindow
-                serviceCollection.AddTransient<OtherViewModel>();
-            })
-            .UseConsoleLifetime()
-            .UseWpfLifetime()
-            .Build();
+            .UseWpfLifetime();
+
+        builder.Services.AddTransient<OtherViewModel>();
+
+        var host = builder.Build();
 
         Console.WriteLine("Run!");
         return host.RunAsync();
     }
-
-    /// <summary>
-    /// Configure the loggers
-    /// </summary>
-    /// <param name="hostBuilder">IHostBuilder</param>
-    /// <returns>IHostBuilder</returns>
-    private static IHostBuilder ConfigureLogging(this IHostBuilder hostBuilder)
-    {
-        return hostBuilder.ConfigureLogging((hostContext, configLogging) =>
-        {
-            configLogging
-                .AddConfiguration(hostContext.Configuration.GetSection("Logging"))
-                .AddConsole()
-                .AddDebug();
-        });
-    }
-
-    /// <summary>
-    /// Configure the configuration
-    /// </summary>
-    /// <param name="hostBuilder"></param>
-    /// <param name="args"></param>
-    /// <returns></returns>
-    private static IHostBuilder ConfigureConfiguration(this IHostBuilder hostBuilder, string[] args)
-    {
-        return hostBuilder.ConfigureHostConfiguration(configHost =>
-            {
-                configHost
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile(HostSettingsFile, optional: true)
-                    .AddEnvironmentVariables(prefix: Prefix)
-                    .AddCommandLine(args);
-            })
-            .ConfigureAppConfiguration((hostContext, configApp) =>
-            {
-                configApp
-                    .AddJsonFile(AppSettingsFilePrefix + ".json", optional: true)
-                    .AddEnvironmentVariables(prefix: Prefix)
-                    .AddCommandLine(args);
-                if (!string.IsNullOrEmpty(hostContext.HostingEnvironment.EnvironmentName))
-                {
-                    configApp.AddJsonFile(AppSettingsFilePrefix + $".{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
-                }
-            });
-    }
 }
+#endif
