@@ -55,31 +55,33 @@
   <Folder Name="/Examples/Common/">
     <Project Path="Dapplo.Hosting.Sample.Common/Dapplo.Hosting.Sample.Common.csproj" Id="7ee3aaa3-d3be-473a-91f4-2a38c770410d" />
   </Folder>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.AppServices/Dapplo.Microsoft.Extensions.Hosting.AppServices.csproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro/Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro.csproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.Metro/Dapplo.Microsoft.Extensions.Hosting.Metro.csproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.Plugins/Dapplo.Microsoft.Extensions.Hosting.Plugins.csproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.WinForms/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.WinForms.csproj" />
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.Wpf/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.Wpf.csproj" />
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.UiThread/Dapplo.Microsoft.Extensions.Hosting.UiThread.csproj" />
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.WinForms/Dapplo.Microsoft.Extensions.Hosting.WinForms.csproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.WinUI/Dapplo.Microsoft.Extensions.Hosting.WinUI.csproj">
-    <Platform Solution="*|Any CPU" Project="x64" />
-    <Platform Solution="*|arm64" Project="arm64" />
-    <Platform Solution="*|x64" Project="x64" />
-    <Platform Solution="*|x86" Project="x86" />
-  </Project>
-  <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.Wpf/Dapplo.Microsoft.Extensions.Hosting.Wpf.csproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
+  <Folder Name="/Hosting/">
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.AppServices/Dapplo.Microsoft.Extensions.Hosting.AppServices.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro/Dapplo.Microsoft.Extensions.Hosting.CaliburnMicro.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.Metro/Dapplo.Microsoft.Extensions.Hosting.Metro.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.Plugins/Dapplo.Microsoft.Extensions.Hosting.Plugins.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.WinForms/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.WinForms.csproj" />
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.Wpf/Dapplo.Microsoft.Extensions.Hosting.ReactiveUI.Wpf.csproj" />
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.UiThread/Dapplo.Microsoft.Extensions.Hosting.UiThread.csproj" />
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.WinForms/Dapplo.Microsoft.Extensions.Hosting.WinForms.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.WinUI/Dapplo.Microsoft.Extensions.Hosting.WinUI.csproj">
+      <Platform Solution="*|Any CPU" Project="x64" />
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="../src/Dapplo.Microsoft.Extensions.Hosting.Wpf/Dapplo.Microsoft.Extensions.Hosting.Wpf.csproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
 </Solution>

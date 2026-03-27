@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Dapplo.Microsoft.Extensions.Hosting.WinUI\Dapplo.Microsoft.Extensions.Hosting.WinUI.csproj" />
-    <ProjectReference Include="..\..\Dapplo.Hosting.Sample.Common\Dapplo.Hosting.Sample.Common.csproj" />
-    
+    <ProjectReference Include="..\..\Dapplo.Hosting.Sample.Common\Dapplo.Hosting.Sample.Common.csproj" />    
   </ItemGroup>
 </Project>
