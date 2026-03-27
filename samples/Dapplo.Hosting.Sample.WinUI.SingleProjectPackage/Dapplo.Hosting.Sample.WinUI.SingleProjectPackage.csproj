@@ -12,9 +12,9 @@
     <PublishProfile>Properties\PublishProfiles\win10-$(Platform).pubxml</PublishProfile>
     <DefineConstants>DISABLE_XAML_GENERATED_MAIN;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
-  <!--<PropertyGroup>
+  <PropertyGroup>
     <DefineConstants>$(DefineConstants);USE_HOST_APPLICATION_BUILDER</DefineConstants>
-  </PropertyGroup>-->  
+  </PropertyGroup>
   <ItemGroup>
     <None Remove="Images\LockScreenLogo.scale-200.png" />
     <None Remove="Images\SplashScreen.scale-200.png" />

@@ -14,10 +14,45 @@ namespace Dapplo.Hosting.Sample.DefaultWpfDemo;
 public static class AppMixins
 {    
     internal const string HostSettingsFile = "hostsettings.json";
+    internal const string Prefix = "PREFIX_";
 #if !USE_HOST_APPLICATION_BUILDER
     private const string AppSettingsFilePrefix = "appsettings";
+
+    /// <summary>
+    /// Configure the loggers
+    /// </summary>
+    /// <param name="hostBuilder">IHostBuilder</param>
+    /// <returns>IHostBuilder</returns>
+    internal static IHostBuilder ConfigureLogging(this IHostBuilder hostBuilder) =>
+        hostBuilder.ConfigureLogging((hostContext, configLogging) =>
+            configLogging
+                .AddConfiguration(hostContext.Configuration.GetSection("Logging"))
+                .AddConsole()
+                .AddDebug());
+
+    /// <summary>
+    /// Configure the configuration
+    /// </summary>
+    /// <param name="hostBuilder"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    internal static IHostBuilder ConfigureConfiguration(this IHostBuilder hostBuilder, string[] args) =>
+        hostBuilder.ConfigureHostConfiguration(configHost => configHost.SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(HostSettingsFile, optional: true)
+            .AddEnvironmentVariables(prefix: Prefix)
+            .AddCommandLine(args))
+            .ConfigureAppConfiguration((hostContext, configApp) =>
+            {
+                configApp.AddJsonFile(AppSettingsFilePrefix + ".json", optional: true);
+                if (!string.IsNullOrEmpty(hostContext.HostingEnvironment.EnvironmentName))
+                {
+                    configApp.AddJsonFile(AppSettingsFilePrefix + $".{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
+                }
+                configApp.AddEnvironmentVariables(prefix: Prefix)
+                .AddCommandLine(args);
+            });
 #endif
-    internal const string Prefix = "PREFIX_";
+
 }
 /// <summary>
 /// Interaction logic for App.xaml
