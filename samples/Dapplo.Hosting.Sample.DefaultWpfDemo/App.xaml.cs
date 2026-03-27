@@ -12,9 +12,11 @@ using Microsoft.Extensions.Configuration;
 namespace Dapplo.Hosting.Sample.DefaultWpfDemo;
 
 public static class AppMixins
-{
+{    
     internal const string HostSettingsFile = "hostsettings.json";
+#if !USE_HOST_APPLICATION_BUILDER
     private const string AppSettingsFilePrefix = "appsettings";
+#endif
     internal const string Prefix = "PREFIX_";
 }
 /// <summary>

@@ -17,7 +17,6 @@ namespace Dapplo.Hosting.Sample.WpfDemo;
 
 public static class Program
 {
-    private const string AppSettingsFilePrefix = "appsettings";
     private const string HostSettingsFile = "hostsettings.json";
     private const string Prefix = "PREFIX_";
 
@@ -28,7 +27,7 @@ public static class Program
 
         // Issue loading environment name from hostsettings.json file
         // For more details see https://github.com/dotnet/runtime/issues/97930 (Unable to configure host environment from a JSON settings file when using Host.CreateApplicationBuilder)
-        var environmentName = GetEnvironmentNameFromHostSettingsFile();
+        var environmentName = Dapplo.Hosting.Sample.Common.HostingUtility.GetEnvironmentNameFromHostSettingsFile(HostSettingsFile);
         if (!string.IsNullOrEmpty(environmentName))
         {
             hostApplicationBuilderSettings.EnvironmentName = environmentName;
@@ -78,30 +77,6 @@ public static class Program
 
         Console.WriteLine("Run!");
         return host.RunAsync();
-    }
-
-    private static string GetEnvironmentNameFromHostSettingsFile()
-    {
-        string environmentName = null;
-
-        var hostSettingsFilePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), HostSettingsFile);
-
-        if (System.IO.File.Exists(hostSettingsFilePath))
-        {
-            var jsonData = File.ReadAllText(hostSettingsFilePath);
-            var jsonHostSettingsObject = System.Text.Json.Nodes.JsonObject.Parse(jsonData);
-
-            if (jsonHostSettingsObject != null)
-            {
-                var environmentNode = jsonHostSettingsObject["environment"];
-                if (environmentNode != null)
-                {
-                    environmentName = environmentNode.GetValue<string>();
-                }
-            }
-        }
-
-        return environmentName;
     }
 }
 

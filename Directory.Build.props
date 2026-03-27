@@ -47,7 +47,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <None Include="$(MSBuildThisFileDirectory)\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="$(SolutionDir)\icon.png" Pack="true" PackagePath="\"/>
     <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="LICENSE" />
     <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>

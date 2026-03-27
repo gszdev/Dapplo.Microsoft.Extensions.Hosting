@@ -19,7 +19,7 @@ namespace Dapplo.Hosting.Sample.Common
                 if (jsonHostSettingsObject != null)
                 {
                     var environmentNode = jsonHostSettingsObject["environment"];
-                    if (environmentNode != null)
+                    if (environmentNode != null && environmentNode.GetValueKind() == System.Text.Json.JsonValueKind.String)
                     {
                         environmentName = environmentNode.GetValue<string>();
                     }

@@ -19,7 +19,6 @@ namespace Dapplo.Hosting.Sample.CaliburnMicroDemo;
 
 public static class Program
 {
-    private const string AppSettingsFilePrefix = "appsettings";
     private const string HostSettingsFile = "hostsettings.json";
     private const string Prefix = "PREFIX_";
 

@@ -17,7 +17,6 @@ namespace Dapplo.Hosting.Sample.ConsoleDemo;
 /// </summary>
 public static class Program
 {
-    private const string AppSettingsFilePrefix = "appsettings";
     private const string HostSettingsFile = "hostsettings.json";
     private const string Prefix = "PREFIX_";
     public static Task Main(string[] args)
@@ -58,48 +57,6 @@ public static class Program
 
         Console.WriteLine("Run!");
         return host.RunAsync();
-    }
-
-    /// <summary>
-    /// Configure the loggers
-    /// </summary>
-    /// <param name="hostBuilder">IHostBuilder</param>
-    /// <returns>IHostBuilder</returns>
-    private static IHostBuilder ConfigureLogging(this IHostBuilder hostBuilder) =>
-        hostBuilder.ConfigureLogging((hostContext, configLogging) =>
-        {
-            configLogging
-                .AddConfiguration(hostContext.Configuration.GetSection("Logging"))
-                .AddConsole()
-                .AddDebug();
-        });
-
-    /// <summary>
-    /// Configure the configuration
-    /// </summary>
-    /// <param name="hostBuilder"></param>
-    /// <param name="args"></param>
-    /// <returns></returns>
-    private static IHostBuilder ConfigureConfiguration(this IHostBuilder hostBuilder, string[] args)
-    {
-        return hostBuilder.ConfigureHostConfiguration(configHost =>
-            {
-                configHost.SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile(HostSettingsFile, optional: true)
-                    .AddEnvironmentVariables(prefix: Prefix)
-                    .AddCommandLine(args);
-            })
-            .ConfigureAppConfiguration((hostContext, configApp) =>
-            {
-                configApp.AddJsonFile(AppSettingsFilePrefix + ".json", optional: true);
-                if (!string.IsNullOrEmpty(hostContext.HostingEnvironment.EnvironmentName))
-                {
-                    configApp.AddJsonFile(AppSettingsFilePrefix + $".{hostContext.HostingEnvironment.EnvironmentName}.json", optional: true);
-                }
-                configApp
-                    .AddEnvironmentVariables(prefix: Prefix)
-                    .AddCommandLine(args);
-            });
     }
 }
 #endif

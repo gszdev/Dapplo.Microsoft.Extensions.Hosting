@@ -17,7 +17,6 @@ namespace Dapplo.Hosting.Sample.WinFormsDemo;
 
 public static class Program
 {
-    private const string AppSettingsFilePrefix = "appsettings";
     private const string HostSettingsFile = "hostsettings.json";
     private const string Prefix = "PREFIX_";
 
@@ -39,6 +38,8 @@ public static class Program
         }
 
         var builder = Host.CreateApplicationBuilder(hostApplicationBuilderSettings);
+        builder.Configuration.AddEnvironmentVariables(prefix: Prefix);
+
         builder.Logging.AddConsole();
         builder.Logging.AddDebug();
 
