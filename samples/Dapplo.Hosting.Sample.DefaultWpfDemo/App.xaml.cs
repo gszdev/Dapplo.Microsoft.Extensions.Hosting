@@ -1,13 +1,14 @@
 using System;
-using System.Windows;
-using Microsoft.Extensions.Hosting;
-using Dapplo.Microsoft.Extensions.Hosting.Plugins;
-using Dapplo.Microsoft.Extensions.Hosting.AppServices;
-using Dapplo.Microsoft.Extensions.Hosting.Wpf;
 using System.IO;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
+using Dapplo.Hosting.Sample.Common;
+using Dapplo.Microsoft.Extensions.Hosting.AppServices;
+using Dapplo.Microsoft.Extensions.Hosting.Plugins;
+using Dapplo.Microsoft.Extensions.Hosting.Wpf;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Dapplo.Hosting.Sample.DefaultWpfDemo;
 
@@ -62,7 +63,7 @@ public partial class App : Application
 #if USE_HOST_APPLICATION_BUILDER
     public App()
     {
-        var executableLocation = Path.GetDirectoryName(typeof(App).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName() ?? throw new NotSupportedException("Can't start without location.");
 
         var hostApplicationBuilderSettings = new HostApplicationBuilderSettings() { Args = Environment.GetCommandLineArgs(), };
         
@@ -116,7 +117,7 @@ public partial class App : Application
 #else
     public App()
     {
-        var executableLocation = Path.GetDirectoryName(typeof(App).Assembly.Location) ?? throw new NotSupportedException("Can't start without location.");
+        var executableLocation = ProgramUtility.GetExecutableDirectoryName() ?? throw new NotSupportedException("Can't start without location.");
         var host = new HostBuilder()
             .ConfigureLogging()
             .ConfigureConfiguration(Environment.GetCommandLineArgs())
